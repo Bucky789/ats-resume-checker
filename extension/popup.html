@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <h2>ATS Checker</h2>
+
+  <textarea
+    id="resume"
+    placeholder="Paste your resume text here..."
+  ></textarea>
+
+  <button id="check">Check ATS</button>
+
+  <!-- Loading indicator -->
+  <p id="loading" class="hidden">⏳ Analyzing job & resume...</p>
+
+  <div id="result" class="hidden">
+    <p id="score"></p>
+
+    <h4>Missing Skills</h4>
+    <ul id="missing"></ul>
+
+    <h4>Suggestions</h4>
+    <ul id="suggestions"></ul>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
