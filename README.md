@@ -132,7 +132,6 @@ Copy code
 - Ollama installed and running locally
 
 ### Build the Docker image
-```bash
 cd backend
 docker build -t ats-backend .
 Run the container
