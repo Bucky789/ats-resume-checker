@@ -53,7 +53,7 @@ Unlike black-box AI tools, this system is designed to behave like a **real enter
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 - [Ollama](https://ollama.com/) installed and running
 
-### 1. Setup the Backend
+# 1. Setup the Backend
 
 # Navigate to the backend folder
 cd backend
@@ -65,7 +65,7 @@ docker build -t ats-backend .
 docker run -p 3000:3000 ats-backend
 The backend will be live at http://localhost:3000.
 
-### 2. Install the Chrome Extension
+# 2. Install the Chrome Extension
 -Open Chrome and navigate to chrome://extensions/.
 
 -Enable Developer Mode (top right).
