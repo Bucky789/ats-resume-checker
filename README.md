@@ -132,17 +132,15 @@ Copy code
 - Ollama installed and running locally
 
 ### Build the Docker image
-cd backend
-docker build -t ats-backend .
-Run the container
-bash
-Copy code
-docker run -p 3000:3000 ats-backend
-Backend will be available at:
+-cd backend
+-docker build -t ats-backend
 
-arduino
-Copy code
+### Run the container
+docker run -p 3000:3000 ats-backend
+
+### Backend will be available at:
 http://localhost:3000
+
 🧩 Chrome Extension Setup
 Open Chrome
 
