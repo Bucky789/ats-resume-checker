@@ -85,5 +85,26 @@ JSON
     "Consider adding experience with cicd"
   ]
 }
-### 👤 Author
-Manthan Sumbhe Master’s Student in Computer Science
+
+## 🧠 Design Philosophy
+
+Deterministic > Generative
+Job-specific > Generic skill lists
+Explainable logic > Black-box AI
+Local execution > Cloud dependency
+This system intentionally mirrors how enterprise ATS platforms operate internally.
+
+🚧 Planned Enhancements
+
+Resume PDF / DOCX upload
+
+Section-wise scoring (Skills / Experience / Projects)
+
+Explainability UI (score breakdown)
+
+Resume auto-tailoring per job
+
+GitHub Actions CI pipeline
+
+## 👤 Author
+### Manthan Sumbhe Master’s Student in Computer Science
