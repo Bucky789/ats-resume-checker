@@ -1,165 +1,82 @@
-# ATS Resume Checker  
-**Local LLM-Powered, Deterministic Applicant Tracking System**
+# 🚀 ATS Resume Checker
+### **Local LLM-Powered, Deterministic Applicant Tracking System**
 
-A **privacy-first ATS resume analyzer** that evaluates how well a resume matches a job description directly from real job postings.
+A 🔐 **privacy-first ATS resume analyzer** that evaluates how well a resume matches a job description directly from real job postings.
 
-Unlike black-box AI tools, this system is designed to behave like a **real Applicant Tracking System (ATS)**:
-- Job-driven skill extraction
-- Deterministic, repeatable scoring
-- Required vs preferred skill weighting
-- AI used only as a bounded refinement layer
-
-All processing runs **locally** — no cloud APIs, no resume data leaving the machine.
+Unlike black-box AI tools, this system is designed to behave like a **real enterprise Applicant Tracking System (ATS)** by prioritizing job-driven skill extraction and deterministic scoring logic over unpredictable generative output.
 
 ---
 
 ## ✨ Key Features
 
-### 🔍 Live Job Analysis
-- Analyze job descriptions directly from:
-  - LinkedIn
-  - Company career pages
-  - Greenhouse / Lever job postings
-- No manual copy-paste of job descriptions required
-
-### 🧠 ATS-Realistic Scoring
-- Skills are extracted **from the job description**, not from a static global list
-- Required skills are weighted more heavily than preferred skills
-- Same resume + same job → **same score every time**
-
-### 🤖 Local LLM (Bounded & Deterministic)
-- Uses a lightweight **local LLM via Ollama**
-- LLM is restricted to experience relevance refinement
-- Core scoring logic is **rule-based**, not generative
-- Temperature set to `0` to eliminate randomness
-
-### 🧱 Resume Quality Validation
-- Low-information resumes (e.g., only a name) are rejected
-- Prevents artificially inflated ATS scores
-
-### 🔐 Privacy-First by Design
-- No cloud APIs
-- No external resume uploads
-- All inference runs locally
-
-### 🐳 Dockerized Backend
-- Reproducible environment
-- Easy setup on any machine with Docker
-- Clean separation of backend and frontend
+* **🔍 Live Job Analysis:** Extract job descriptions directly from LinkedIn, company career pages (Greenhouse, Lever, etc.) without manual copy-pasting.
+* **🧠 ATS-Realistic Scoring:** Skills are extracted dynamically from the job description. Required skills are weighted more heavily than preferred skills.
+* **🤖 Local & Deterministic AI:** Uses **Ollama** (Phi-3) with `temperature: 0`. AI is restricted to experience refinement; core scoring remains rule-based and repeatable.
+* **🧱 Quality Validation:** Rejects low-information resumes (e.g., just a name) to prevent artificial score inflation.
+* **🔐 Privacy-First:** 100% local processing. No cloud APIs, no data leaks, no external resume uploads.
+* **🐳 Dockerized Backend:** Reproducible environment for easy deployment on Windows, macOS, or Linux.
 
 ---
 
 ## 🏗️ System Architecture
 
-Chrome Extension
-├─ Extracts job description from active tab
-├─ Accepts resume text
-↓
-Node.js Backend (Dockerized)
-├─ Normalize & clean job text
-├─ Extract job-specific skills
-├─ Identify required vs preferred skills
-├─ Apply deterministic ATS scoring
-├─ Use local LLM for bounded refinement
-↓
-ATS Score + Missing Skills + Suggestions
-
-markdown
-Copy code
+1. **Chrome Extension:** Extracts JD from the active tab and sends it to the backend.
+2. **Node.js Engine:** Normalizes text, cleans data, and extracts specific skills.
+3. **Scoring Logic:** Applies weights based on "Required" vs "Preferred" keywords.
+4. **Local LLM:** Provides a bounded bonus for experience relevance (via Ollama).
 
 ---
 
 ## 🛠️ Tech Stack
 
-### Frontend
-- Chrome Extension (Manifest V3)
-- JavaScript, HTML, CSS
-
-### Backend
-- Node.js
-- Express.js
-- Deterministic ATS scoring logic
-
-### AI / LLM
-- **Ollama** (local inference)
-- Lightweight instruction-tuned model (Phi-3)
-- Temperature = 0 for deterministic output
-
-### DevOps & Tooling
-- Docker (backend containerization)
-- Git & GitHub (version control)
-- Windows / macOS compatible
+| Component | Technology |
+| :--- | :--- |
+| **Frontend** | Chrome Extension (Manifest V3), JavaScript, HTML, CSS |
+| **Backend** | Node.js, Express.js |
+| **AI / LLM** | Ollama (Phi-3), Deterministic Local Inference |
+| **DevOps** | Docker, Git |
 
 ---
 
-## ⚙️ How ATS Scoring Works
+## ⚙️ How the Scoring Works
 
-### 1️⃣ Job-Driven Skill Extraction
-- Skills are extracted directly from the job description
-- Only job-relevant skills are evaluated
-
-### 2️⃣ Skill Normalization
-- Handles aliases and variants:
-  - `Spring Boot → Spring`
-  - `CI/CD → cicd`
-  - `Node.js → node`
-- Reduces false negatives
-
-### 3️⃣ Required vs Preferred Classification
-- Skills appearing near phrases like:
-  - “required”
-  - “must have”
-  - “expertise”
-- are treated as **required**
-- Required skills carry higher weight
-
-### 4️⃣ Deterministic Core Scoring
-- Rule-based, stable, repeatable
-- No randomness between runs
-- Mirrors real ATS behavior
-
-### 5️⃣ Bounded LLM Refinement
-- Local LLM provides a **small bonus** for experience relevance
-- Cannot override skill mismatches
-- Output is clamped to prevent score inflation
+* **Job-Driven Extraction:** Only skills relevant to the specific job post are evaluated.
+* **Normalization:** Map aliases (e.g., `Node.js` → `node`, `CI/CD` → `cicd`) to reduce false negatives.
+* **Weighted Classification:** Keywords near "required" or "must-have" carry higher mathematical weight.
+* **Bounded LLM Refinement:** The LLM provides a minor score adjustment based on the *relevance* of experience but cannot override the core skill match.
 
 ---
 
-## 🐳 Running the Backend (Docker)
+## 🚀 Getting Started
 
-### Prerequisites
-- Docker Desktop
-- Ollama installed and running locally
+### 📌 Prerequisites
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- [Ollama](https://ollama.com/) installed and running
+
+## 1. Setup the Backend
+
+### Navigate to the backend folder
+cd backend
 
 ### Build the Docker image
-```bash
-cd backend
 docker build -t ats-backend .
-Run the container
-bash
-Copy code
+
+### Run the container
 docker run -p 3000:3000 ats-backend
-Backend will be available at:
+The backend will be live at http://localhost:3000.
 
-arduino
-Copy code
-http://localhost:3000
-🧩 Chrome Extension Setup
-Open Chrome
+## 2. Install the Chrome Extension
+-Open Chrome and navigate to chrome://extensions/.
 
-Navigate to chrome://extensions
+-Enable Developer Mode (top right).
 
-Enable Developer Mode
+-Click Load unpacked.
 
-Click Load unpacked
+-Select the extension/ folder from this repository.
 
-Select the extension/ folder
+## 📊 Sample API Response
+JSON
 
-Open a job posting, click the extension, paste your resume, and run the ATS check.
-
-📊 Sample API Response
-json
-Copy code
 {
   "score": 82,
   "missing_skills": ["docker", "cicd"],
@@ -168,28 +85,23 @@ Copy code
     "Consider adding experience with cicd"
   ]
 }
-🧠 Design Philosophy
-Deterministic > Generative
 
-Job-specific > Generic skill lists
+## 🧠 Design Philosophy
 
-Explainable logic > Black-box AI
+* Deterministic > Generative
+* Job-specific > Generic skill lists
+* Explainable logic > Black-box AI
+* Local execution > Cloud dependency
+* This system intentionally mirrors how enterprise ATS platforms operate internally.
 
-Local execution > Cloud dependency
+## 🚧 Planned Enhancements
 
-This system intentionally mirrors how enterprise ATS platforms operate internally.
+* Resume PDF / DOCX upload
+* Section-wise scoring (Skills / Experience / Projects)
+* Explainability UI (score breakdown)
+* Resume auto-tailoring per job
+* GitHub Actions CI pipeline
 
-🚧 Planned Enhancements
-Resume PDF / DOCX upload
-
-Section-wise scoring (Skills / Experience / Projects)
-
-Explainability UI (score breakdown)
-
-Resume auto-tailoring per job
-
-GitHub Actions CI pipeline
-
-👤 Author
-Manthan Sumbhe
+## 👤 Author
+### Manthan Sumbhe 
 Master’s Student in Computer Science
