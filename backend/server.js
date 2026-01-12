@@ -145,31 +145,74 @@ function splitRequiredPreferred(jobSkills, jobText) {
 
 function deterministicATSScore(resumeText, jobText) {
   const jobSkills = extractJobSkills(jobText);
+
+  // 🚨 Job quality gate
+  if (jobSkills.length < 4) {
+    return { score: 0, missing_skills: [] };
+  }
+
   const { required, preferred } = splitRequiredPreferred(jobSkills, jobText);
 
-  const matched = extractResumeSkills(resumeText, jobSkills);
-  const missing = jobSkills.filter((s) => !matched.includes(s));
+  // 🔒 If no required skills detected, treat ALL job skills as required
+  const effectiveRequired =
+    required.length > 0 ? required : jobSkills;
 
-  // weights
-  const REQUIRED_WEIGHT = 0.7;
-  const PREFERRED_WEIGHT = 0.3;
-
-  const reqMatched = required.filter((s) => matched.includes(s)).length;
-  const prefMatched = preferred.filter((s) => matched.includes(s)).length;
-
-  const reqScore = required.length ? reqMatched / required.length : 1;
-
-  const prefScore = preferred.length ? prefMatched / preferred.length : 1;
-
-  const finalScore = Math.round(
-    (reqScore * REQUIRED_WEIGHT + prefScore * PREFERRED_WEIGHT) * 100
+  const matched = jobSkills.filter(skill =>
+    resumeText.includes(skill)
   );
 
-  return {
-    score: finalScore,
-    missing_skills: missing,
-  };
+  const missing = jobSkills.filter(skill =>
+    !matched.includes(skill)
+  );
+
+  const reqMatched = effectiveRequired.filter(skill =>
+    matched.includes(skill)
+  ).length;
+
+  const reqScore = reqMatched / effectiveRequired.length;
+
+  // 🚨 HARD FAIL: missing too many required skills
+  if (reqScore < 0.6) {
+    return {
+      score: Math.round(reqScore * 60), // max ≈ 36
+      missing_skills: missing
+    };
+  }
+
+  const prefMatched = preferred.filter(skill =>
+    matched.includes(skill)
+  ).length;
+
+  const prefScore = preferred.length
+    ? prefMatched / preferred.length
+    : 0;
+
+  // 🔥 Base weighted score
+  let score = Math.round(
+    (reqScore * 0.8 + prefScore * 0.2) * 100
+  );
+
+  // 🔥 Explicit penalties for missing skills
+  const missingRequired = effectiveRequired.filter(
+    s => !matched.includes(s)
+  ).length;
+
+  const missingPreferred = preferred.filter(
+    s => !matched.includes(s)
+  ).length;
+
+  const penalty =
+    missingRequired * 6 +
+    missingPreferred * 2;
+
+  score -= penalty;
+
+  // 🔒 Final clamp (realistic ATS ceiling)
+  score = Math.max(0, Math.min(score, 85));
+
+  return { score, missing_skills: missing };
 }
+
 
 /* =====================================================
    7. Resume Quality Gate (fail fast)
