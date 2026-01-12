@@ -103,4 +103,5 @@ JSON
 * GitHub Actions CI pipeline
 
 ## 👤 Author
-### Manthan Sumbhe Master’s Student in Computer Science
+### Manthan Sumbhe 
+Master’s Student in Computer Science
