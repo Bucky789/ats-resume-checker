@@ -65,16 +65,16 @@ docker build -t ats-backend .
 docker run -p 3000:3000 ats-backend
 The backend will be live at http://localhost:3000.
 
-2. Install the Chrome Extension
-Open Chrome and navigate to chrome://extensions/.
+### 2. Install the Chrome Extension
+-Open Chrome and navigate to chrome://extensions/.
 
-Enable Developer Mode (top right).
+-Enable Developer Mode (top right).
 
-Click Load unpacked.
+-Click Load unpacked.
 
-Select the extension/ folder from this repository.
+-Select the extension/ folder from this repository.
 
-📊 Sample API Response
+## 📊 Sample API Response
 JSON
 
 {
@@ -85,5 +85,5 @@ JSON
     "Consider adding experience with cicd"
   ]
 }
-👤 Author
+### 👤 Author
 Manthan Sumbhe Master’s Student in Computer Science
